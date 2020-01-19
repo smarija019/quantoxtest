@@ -20,27 +20,53 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="registration.php">Register</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="login.php">Login <span class="sr-only">(current)</span></a>
-            </li>
+            <?php if (!isset($_SESSION['user_name'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration.php">Register</a>
+                </li>
+            <?php } ?>
+            <?php if (isset($_SESSION['user_name'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
+            <?php } else { ?>
+                <li class="nav-item active">
+                    <a class="nav-link" href="login.php">Login</a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
   </div>
 </nav>
 <main role="main" class="container">
     <div class="row">
-        <form>
+        <?php if (!empty($_GET['error'])) {?>
+            <div class="alert alert-danger" role="alert">
+            <?php if ($_GET['error'] == '1') { ?>
+                Fill all fields!
+            <?php } ?>
+            <?php if ($_GET['error'] == '2') { ?>
+                Email is not valid. Your email should be ex. 'example@example.com'
+            <?php } ?>
+            <?php if ($_GET['error'] == '3') { ?>
+                Wrong username or password!
+            <?php } ?>
+            <?php if ($_GET['error'] == '4') { ?>
+                Wrong username or password!
+            <?php } ?>
+            </div>
+        <?php } ?>
+    </div>
+    <div class="row">
+        <form action="user_login.php" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,17 +24,37 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="registration.php">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.php">Login</a>
-            </li>
+            <?php if (!isset($_SESSION['user_name'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration.php">Register</a>
+                </li>
+            <?php } ?>
+            <?php if (isset($_SESSION['user_name'])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
+            <?php } else { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">Login</a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
   </div>
 </nav>
 <main role="main" class="container">
+    <div class="row">
+        <?php if (!empty($_GET['success'])) {?>
+            <div class="alert alert-success" role="alert">
+            <?php if ($_GET['success'] == '1') { ?>
+                Successfull login!
+            <?php } ?>
+            <?php if ($_GET['success'] == '2') { ?>
+                Successfull logout!
+            <?php } ?>
+            </div>
+        <?php } ?>
+    </div>
     <div class="row">
     <form class="form-inline">
         <div class="form-group mx-sm-3 mb-2">
